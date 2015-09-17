@@ -22,8 +22,16 @@ document.addEventListener("DOMContentLoaded", function(){
 		  if (xmlhttp.readyState==4 && xmlhttp.status==200)
 		    {
 		    alert('hit the api')
-		    console.log(xmlhttp.responseText)
+		    var queryResults = JSON.parse(xmlhttp.responseText)
+		    var streamResults = queryResults["streams"]
+		    streamResults.forEach(function(result){
+		    	console.log('a result')
+		    	console.log(result)
+		    })
+		    debugger
 		    }
+
+
 		  }  
 		xmlhttp.open("GET", "https://api.twitch.tv/kraken/search/streams?q=starcraft", true)
 		xmlhttp.send()
