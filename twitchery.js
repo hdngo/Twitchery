@@ -23,12 +23,23 @@ document.addEventListener("DOMContentLoaded", function(){
 		    {
 		    alert('hit the api')
 		    var queryResults = JSON.parse(xmlhttp.responseText)
+
+		    //update total results count text
+		    var totalResultsCount = document.getElementById('results-count')
+		    totalResultsCount.innerText = queryResults['_total']
+
+		    var searchResults = document.getElementById('search-results')
 		    var streamResults = queryResults["streams"]
 		    streamResults.forEach(function(result){
 		    	console.log('a result')
 		    	console.log(result)
+		    	var resultDiv = document.createElement('div')
+		    	var resultName = document.createElement('p')
+		    	resultName.innerText = result.viewers
+		    	searchResults.appendChild(resultDiv)
+		    	resultDiv.appendChild(resultName)
+
 		    })
-		    debugger
 		    }
 
 
