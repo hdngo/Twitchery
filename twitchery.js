@@ -34,8 +34,6 @@ document.addEventListener("DOMContentLoaded", function(){
 
 		    var queryResults = JSON.parse(xmlhttp.responseText)
 
-		    // var totalResultsCount = document.getElementById('results-count')
-		    // totalResultsCount.innerText = queryResults['_total']
 		    updateResults(queryResults['_total'])
 
 		    handlePagination(queryResults)
@@ -76,6 +74,14 @@ document.addEventListener("DOMContentLoaded", function(){
 	function handlePagination(queryResults){
 		if(queryResults["_total"] > 10){
 			console.log("generate " + Math.ceil(queryResults["_total"] / 10) + " pages")
+			if(queryResults["_links"]["next"]){
+			alert(queryResults["_links"]["next"])
+			var nextPageLink = document.getElementsByClassName("next-link")[0]
+			nextPageLink.setAttribute("href", queryResults["_links"]["next"])
+			}
+			if(queryResults["_links"]["prev"]){
+				alert(queryResults["_links"]["prev"])
+			}
 		}
 	}
 
@@ -127,6 +133,44 @@ document.addEventListener("DOMContentLoaded", function(){
 
 	function resetSearchBar(){
 		searchBar.value = ""
+	}
+
+	function navigateToPage(){
+		var xmlhttp;
+		if (window.XMLHttpRequest)
+		  {// code for IE7+, Firefox, Chrome, Opera, Safari
+		  xmlhttp=new XMLHttpRequest();
+		  }
+		else
+		  {// code for IE6, IE5
+		  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+		  }
+		xmlhttp.onreadystatechange=function()
+		  {
+		  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+		    {
+
+		    var queryResults = JSON.parse(xmlhttp.responseText)
+
+		    updateResults(queryResults['_total'])
+
+		    handlePagination(queryResults)
+
+		    var streamResults = queryResults["streams"]
+		    streamResults.forEach(function(result){
+		    	searchResultsList.appendChild(createThumbnailImage(result))
+		    	searchResultsList.appendChild(addStreamName(result))
+		    	searchResultsList.appendChild(addViewersCount(result))
+		    	searchResultsList.appendChild(addStreamDescription(result))
+		    })
+		    }
+		  else if(xmlhttp.readyState==4 && xmlhttp.status==400){
+		  	updateResults()
+		  }
+
+		  }  
+		xmlhttp.open("GET", baseAPIUrl + searchQuery, true)
+		xmlhttp.send()
 	}
 
 })
