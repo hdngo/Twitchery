@@ -1,0 +1,30 @@
+Things to implement:
+
+Core features/functionality:
+Have the user input from the search bar be passed in to the XHR request URL.
+	Possible steps: 
+	-Declare a variable that represents the base URL without any additional parameters
+	-Retrieve value from search bar input field
+	-Append the value to the base URL variable appropriately
+	-Make request
+
+Based on the number of results returned from the search, manage pagination of the results.
+	Possible steps:
+	-Retrieve response from XHR
+	-Store the response in a variable
+	-Look at the total number of results
+	-Choose number of results to display per page (fixed for now)
+	-Divide total number of results by chosen number of results to display per page (so we know if there'll be 8 pages, 10 pages, etc)
+	-Create a nested/2d array that stores the chosen number of results per page into a single array; a single array represents a page
+	 --Alternatively, create a JSON object that has properties such as page 1, page 2, etc. are assigned an array value containing X number of results
+	-Have a previous/next results page button, where the buttons will point to the current page number value +/- 1
+	-Refresh results content div to show appropriate results
+
+Render an image thumbnail that previews the stream, along with the stream display name, game name, number of viewers, and stream description.
+Possible steps:
+	-For each result object create a div
+	-Within each div, have one div floated left to contain the thumbnail 
+	-Have another div to contain general information about the stream
+	*Have images and links point to actual stream links
+
+STYLE THE PAGE!
