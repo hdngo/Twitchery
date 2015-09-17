@@ -21,5 +21,9 @@ html, body{
 	padding-left: 10%;
 }
 
+#results-message{
+	display: none;
+}
+
 
 

@@ -1,12 +1,22 @@
 document.addEventListener("DOMContentLoaded", function(){
-	console.log("game starto")
+	var baseAPIUrl = "https://api.twitch.tv/kraken/search/streams?q="
 
 	var searchForm = document.getElementsByTagName("form")[0]
 	searchForm.addEventListener("submit", returnSearchResults)
+	var searchBar = searchForm.children[0]
+
+	var resultsMessage = document.getElementById('results-message')
+	var searchResults = document.getElementById('search-results')
+	var searchResultsList = document.getElementById('search-results-list')
+	var resultsCountText = document.getElementById('results-count')
 
 	//lesson learned: without the event.preventDefault(), the search bar would automatically clear its content and remove the dynamically appended content after being submitted
 	function returnSearchResults(event){
 		event.preventDefault()
+		resultsMessage.style.visibility = 'visible'
+		clearSearchResultsList();
+
+		var searchQuery = searchBar.value
 
 		var xmlhttp;
 		if (window.XMLHttpRequest)
@@ -21,38 +31,103 @@ document.addEventListener("DOMContentLoaded", function(){
 		  {
 		  if (xmlhttp.readyState==4 && xmlhttp.status==200)
 		    {
-		    alert('hit the api')
+
 		    var queryResults = JSON.parse(xmlhttp.responseText)
 
-		    //update total results count text
-		    var totalResultsCount = document.getElementById('results-count')
-		    totalResultsCount.innerText = queryResults['_total']
+		    // var totalResultsCount = document.getElementById('results-count')
+		    // totalResultsCount.innerText = queryResults['_total']
+		    updateResults(queryResults['_total'])
 
-		    var searchResults = document.getElementById('search-results')
+		    handlePagination(queryResults)
+
 		    var streamResults = queryResults["streams"]
 		    streamResults.forEach(function(result){
-		    	console.log('a result')
-		    	console.log(result)
-		    	var resultDiv = document.createElement('div')
-		    	var resultName = document.createElement('p')
-		    	resultName.innerText = result.viewers
-		    	searchResults.appendChild(resultDiv)
-		    	resultDiv.appendChild(resultName)
-
+		    	searchResultsList.appendChild(createThumbnailImage(result))
+		    	searchResultsList.appendChild(addStreamName(result))
+		    	searchResultsList.appendChild(addViewersCount(result))
+		    	searchResultsList.appendChild(addStreamDescription(result))
 		    })
 		    }
-
+		  else if(xmlhttp.readyState==4 && xmlhttp.status==400){
+		  	updateResults()
+		  }
 
 		  }  
-		xmlhttp.open("GET", "https://api.twitch.tv/kraken/search/streams?q=starcraft", true)
+		xmlhttp.open("GET", baseAPIUrl + searchQuery, true)
 		xmlhttp.send()
-		// var searchResults = document.getElementById('search-results')
-		// var searchBar = this.children[0]
-		// alert(searchBar.value)
-		// var resultDiv = document.createElement('div')
-		// searchResults.appendChild(resultDiv)
+		resetSearchBar();
 	}
 
+	function clearSearchResultsList(){
+		searchResultsList.innerHTML = "";
+	}
+
+	function updateResults(resultsCount){
+		if(resultsCount === 0 || resultsCount === undefined){
+			hideResultsCount();
+			throwNoResultsMessage();
+		}
+		else{
+			resultsCountText.innerText = resultsCount
+			showResultsCount();
+		}
+	}
+
+	function handlePagination(queryResults){
+		if(queryResults["_total"] > 10){
+			console.log("generate " + Math.ceil(queryResults["_total"] / 10) + " pages")
+		}
+	}
+
+	function createSearchResultRow(resultStreamObject){
+		var resultDiv = document.createElement("div")
+	}
+
+	function createThumbnailImage(resultStreamObject){
+		var thumbnailUrl = resultStreamObject["preview"]["medium"]
+		var thumbnailImage = new Image('180', '180')
+		thumbnailImage.classList.add('thumbnail-img')
+		thumbnailImage.src = thumbnailUrl
+		return thumbnailImage
+	}
+
+	function addStreamName(resultStreamObject){
+		var streamName = document.createElement('h2')
+		streamName.innerText = resultStreamObject["channel"]["status"]
+		return streamName
+	}
+
+	function addViewersCount(resultStreamObject){
+		var viewersCount = document.createElement('p')
+		viewersCount.innerText = "Viewers " + resultStreamObject.viewers
+		return viewersCount
+	}
+
+	function addStreamDescription(resultStreamObject){
+		var streamDescription = document.createElement('p')
+		var channelName = resultStreamObject["channel"]["display_name"]
+		var gameName = resultStreamObject["channel"]["game"]
+		streamDescription.innerText = channelName + " playing " + gameName
+		return streamDescription
+	}
+
+	function showResultsCount(){
+		resultsMessage.style.display = "inline"
+	}
+
+	function hideResultsCount(){
+		resultsMessage.style.display = "none"
+	}
+
+	function throwNoResultsMessage(){
+		var noResultsMessage = document.createElement("p")
+		noResultsMessage.innerText = "Sorry, we couldn't find anything. Try something else!"
+		searchResultsList.appendChild(noResultsMessage)
+	}
+
+	function resetSearchBar(){
+		searchBar.value = ""
+	}
 
 })
 
