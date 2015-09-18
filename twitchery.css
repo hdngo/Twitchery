@@ -2,6 +2,7 @@ html, body{
 	height:100%;
 	width:100%;
 	margin: 0;
+	font-family: sans-serif;
 }
 
 .debug{
@@ -12,7 +13,7 @@ html, body{
 	height: 20%;
 	width: 100%;
 	display: table;
-	background-color: #7550BA;
+	background-color: #6441A5;
 }
 
 #search-form{
@@ -22,6 +23,7 @@ html, body{
 	padding-left: 10%;
 }
 
+/* turned off autocomplete */
 input{
 	border:none;
 }
@@ -29,28 +31,31 @@ input{
 input[type=text]{
 	width: 200px;
 	height: 28px;
-	text-indent: 20px;
+	font-size: 12px;
+	text-indent: 24px;
+	background-image: url('./imgs/search-icon.png');
+	background-size: 14px 14px;
+	background-repeat: no-repeat;
+	background-position: 4px center;
 }
 
 input[type=text]:focus{
-	outline-color: #bca2ef;
+	outline-color: #F0D6FF;
 }
 
 input[type=submit]{
-	height:30px;
+	height: 30px;
+	background-color: #E8E6ED;
 }
 
-
-/*use border none to be able to resize input submit button*/
-
+input[type=submit]:hover{
+	cursor: pointer;
+}
 
 .displ-none{
 	display:none;
 }
-/*
-#results-message{
-	display: none;
-}*/
+
 .mrg-top-0{
 	margin-top:0;
 }
@@ -67,5 +72,62 @@ input[type=submit]{
 	display:inline-block;
 }
 
+.w-100{
+	width:100%;
+}
+
+.w-60{
+	width: 60%;
+}
+
+.mrg-0-auto{
+	margin: 0 auto;
+}
+
+.row{
+	border-bottom: 1px solid #6441A5;
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+
+.mrg-left-20p{
+	margin-left: 20px;
+}
+
+.pos-abs{
+	position: absolute;
+}
+
+.info-box{
+	max-width: 600px;
+}
+
+.mrg-top-60p{
+	margin-top:60px;
+}
+
+.mrg-bot-60p{
+	margin-bottom: 60px;
+}
+
+.pad-right-40p{
+	padding-right:40px;
+}
+
+.page-button{
+	border: 2px solid #6441A5;
+	border-radius: 50%;
+	background: white;
+}
+
+.link:hover{
+	cursor: pointer;
+}
+
+.link:active, .link:focus, .link.active, input[type=submit]:active, input[type=submit]:focus, input[type=submit].active{
+	background-image: none;
+	box-shadow: none;
+	outline: none;
+}
 
 

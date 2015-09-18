@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", function(){
 	var searchResultsList = document.getElementById('search-results-list')
 	var resultsCountText = document.getElementById('results-count')
 
+	var pageIndex = document.getElementById("page-index")
 	var currentPageNumber = document.getElementById("current-page-number")
 	var totalPageCount = document.getElementById("total-num-pages")
 	var nextPageLink = document.getElementsByClassName("next-link")[0]
@@ -33,7 +34,7 @@ document.addEventListener("DOMContentLoaded", function(){
 		  }
 		xmlhttp.onreadystatechange=function()
 		  {
-		  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+		  if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
 		    {
 
 		    var queryResults = JSON.parse(xmlhttp.responseText)
@@ -44,13 +45,17 @@ document.addEventListener("DOMContentLoaded", function(){
 
 		    var streamResults = queryResults["streams"]
 		    streamResults.forEach(function(result){
-		    	searchResultsList.appendChild(createThumbnailImage(result))
-		    	searchResultsList.appendChild(addStreamName(result))
-		    	searchResultsList.appendChild(addViewersCount(result))
-		    	searchResultsList.appendChild(addStreamDescription(result))
+		    	var newRow = createSearchResultRow(result)
+		    	searchResultsList.appendChild(newRow)
+		    	newRow.appendChild(createThumbnailImage(result))
+		    	var infoBox = createInfoBox();
+		    	newRow.appendChild(infoBox)
+		    	infoBox.appendChild(addStreamName(result))
+		    	infoBox.appendChild(addViewersCount(result))
+		    	infoBox.appendChild(addStreamDescription(result))
 		    })
 		    }
-		  else if(xmlhttp.readyState==4 && xmlhttp.status==400){
+		  else if(xmlhttp.readyState == 4 && xmlhttp.status == 400){
 		  	updateResults()
 		  }
 
@@ -70,6 +75,7 @@ document.addEventListener("DOMContentLoaded", function(){
 			throwNoResultsMessage();
 		}
 		else{
+			showPageIndex()
 			resultsCountText.innerText = resultsCount
 			showResultsCount();
 		}
@@ -104,25 +110,34 @@ document.addEventListener("DOMContentLoaded", function(){
 
 	function createSearchResultRow(resultStreamObject){
 		var resultDiv = document.createElement("div")
+		resultDiv.classList.add('row', 'w-100')
+		return resultDiv
+	}
+
+	function createInfoBox(){
+		var infoBox = document.createElement('div')
+		infoBox.classList.add('info-box', 'pos-abs', 'mrg-left-20p', 'inline-b')
+		return infoBox
 	}
 
 	function createThumbnailImage(resultStreamObject){
 		var thumbnailUrl = resultStreamObject["preview"]["medium"]
 		var thumbnailImage = new Image('180', '180')
-		thumbnailImage.classList.add('thumbnail-img')
+		thumbnailImage.classList.add('thumbnail-img', 'inline-b')
 		thumbnailImage.src = thumbnailUrl
 		return thumbnailImage
 	}
 
 	function addStreamName(resultStreamObject){
-		var streamName = document.createElement('h2')
+		var streamName = document.createElement('h3')
+		streamName.classList.add('mrg-top-0', 'pad-right-40p')
 		streamName.innerText = resultStreamObject["channel"]["status"]
 		return streamName
 	}
 
 	function addViewersCount(resultStreamObject){
 		var viewersCount = document.createElement('p')
-		viewersCount.innerText = "Viewers " + resultStreamObject.viewers
+		viewersCount.innerText = resultStreamObject.game + ' - ' + resultStreamObject.viewers + ' viewers'
 		return viewersCount
 	}
 
@@ -160,6 +175,7 @@ document.addEventListener("DOMContentLoaded", function(){
 	}
 
 	function throwNoResultsMessage(){
+		hidePageIndex()
 		var noResultsMessage = document.createElement("p")
 		noResultsMessage.innerText = "Sorry, we couldn't find anything. Try something else!"
 		searchResultsList.appendChild(noResultsMessage)
@@ -169,21 +185,29 @@ document.addEventListener("DOMContentLoaded", function(){
 		searchBar.value = ""
 	}
 
+	function showPageIndex(){
+		pageIndex.style.display = "inline"
+	}
+
+	function hidePageIndex(){
+		pageIndex.style.display = "none"
+	}
+
 	function navigateToPage(event){
 		event.preventDefault()
 		clearSearchResultsList();
 		var xmlhttp;
 		if (window.XMLHttpRequest)
 		  {// code for IE7+, Firefox, Chrome, Opera, Safari
-		  xmlhttp=new XMLHttpRequest();
+		  xmlhttp =new XMLHttpRequest();
 		  }
 		else
 		  {// code for IE6, IE5
-		  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+		  xmlhttp =new ActiveXObject("Microsoft.XMLHTTP");
 		  }
 		xmlhttp.onreadystatechange=function()
 		  {
-		  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+		  if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
 		    {
 
 		    var queryResults = JSON.parse(xmlhttp.responseText)
@@ -194,13 +218,17 @@ document.addEventListener("DOMContentLoaded", function(){
 
 		    var streamResults = queryResults["streams"]
 		    streamResults.forEach(function(result){
-		    	searchResultsList.appendChild(createThumbnailImage(result))
-		    	searchResultsList.appendChild(addStreamName(result))
-		    	searchResultsList.appendChild(addViewersCount(result))
-		    	searchResultsList.appendChild(addStreamDescription(result))
+		    	var newRow = createSearchResultRow(result)
+		    	searchResultsList.appendChild(newRow)
+		    	newRow.appendChild(createThumbnailImage(result))
+		    	var infoBox = createInfoBox();
+		    	newRow.appendChild(infoBox)
+		    	infoBox.appendChild(addStreamName(result))
+		    	infoBox.appendChild(addViewersCount(result))
+		    	infoBox.appendChild(addStreamDescription(result))
 		    })
 		    }
-		  else if(xmlhttp.readyState==4 && xmlhttp.status==400){
+		  else if(xmlhttp.readyState == 4 && xmlhttp.status == 400){
 		  	updateResults()
 		  }
 

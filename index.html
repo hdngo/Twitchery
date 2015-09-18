@@ -10,22 +10,22 @@
 
 <div id="navbar">
 	<form id="search-form">
-  	<input type="text" name="searchquery" placeholder="Search query...">
+  	<input type="text" name="searchquery" placeholder="Search query..." autocomplete="off">
   	<input type="submit" value="Search">
 	</form>
 </div>
 
-<div id="search-results">
+<div id="search-results" class="mrg-0-auto mrg-top-60p w-60">
 	<div class="nav">
 		<p id="results-message" class="displ-none">Total results: <span id="results-count"></span></p>
 		<div id="pagination-links">
-			<a href="#" class="previous-link displ-none"><button>Previous</button></a>
-			<p id="page-index" class="inline-b mrg-top-0 mrg-bot-0"><span id="current-page-number">1</span> / <span id="total-num-pages">1</span></p>
-			<a href="#" class="next-link displ-none"><button>Next</button></a>
+			<a href="#" class="link previous-link displ-none"><button class="page-button link"><</button></a>
+			<p id="page-index" class="mrg-top-0 mrg-bot-0 displ-none"><span id="current-page-number">1</span> / <span id="total-num-pages">1</span></p>
+			<a href="#" class="link next-link displ-none"><button class="page-button link">></button></a>
 		</div>
 	</div>
 	
-	<div id="search-results-list">
+	<div id="search-results-list" class="w-100 mrg-bot-60p">
 
 	</div>
 </div>
