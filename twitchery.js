@@ -109,10 +109,12 @@ document.addEventListener("DOMContentLoaded", function(){
 		if(queryResults["_total"] > 10){
 			var indexOfResultPageNumber = queryResults["_links"]["self"].indexOf("offset")
 
-			var resultPageNumber = parseInt(queryResults["_links"]["self"].substring(indexOfResultPageNumber + 7, indexOfResultPageNumber + 8)) + 1
+			var indexOfLimitParam = queryResults["_links"]["self"].indexOf("limit")
+			var indexOfQueryParam = queryResults["_links"]["self"].indexOf("&q")
+
+			var resultPageNumber = parseInt( (queryResults["_links"]["self"].substring(indexOfResultPageNumber + 7, indexOfQueryParam)) / 10) + 1
 			currentPageNumber.innerText = resultPageNumber
 
-			var indexOfLimitParam = queryResults["_links"]["self"].indexOf("limit")
 			var requestLimit = queryResults["_links"]["self"].substring(indexOfLimitParam + 6, indexOfLimitParam + 8)
 			var totalNumOfPages = Math.ceil(queryResults["_total"] / requestLimit)
 			totalPageCount.innerText = totalNumOfPages
