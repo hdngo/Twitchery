@@ -10,6 +10,11 @@ document.addEventListener("DOMContentLoaded", function(){
 	var searchResultsList = document.getElementById('search-results-list')
 	var resultsCountText = document.getElementById('results-count')
 
+	var currentPageNumber = document.getElementById("current-page-number")
+	var totalPageCount = document.getElementById("total-num-pages")
+	var nextPageLink = document.getElementsByClassName("next-link")[0]
+	var previousPageLink = document.getElementsByClassName("previous-link")[0]
+
 	function returnSearchResults(event){
 		event.preventDefault()
 		resultsMessage.style.visibility = 'visible'
@@ -71,29 +76,26 @@ document.addEventListener("DOMContentLoaded", function(){
 	}
 
 	function handlePagination(queryResults){
+		hidePreviousLinkButton()
+		hideNextLinkButton()
 		if(queryResults["_total"] > 10){
-			//denominator in the current page/ total pages
-			// console.log("generate " + Math.ceil(queryResults["_total"] / 10) + " pages")
-			var currentPageNumber = document.getElementById("current-page-number")
 			var indexOfResultPageNumber = queryResults["_links"]["self"].indexOf("offset")
 
-			//identified bug - the api still provides a next link even if there are no streams returned from the next link
 			var resultPageNumber = parseInt(queryResults["_links"]["self"].substring(indexOfResultPageNumber + 7, indexOfResultPageNumber + 8)) + 1
 			currentPageNumber.innerText = resultPageNumber
 
-			var totalPageCount = document.getElementById("total-num-pages")
 			var indexOfLimitParam = queryResults["_links"]["self"].indexOf("limit")
 			var requestLimit = queryResults["_links"]["self"].substring(indexOfLimitParam + 6, indexOfLimitParam + 8)
 			var totalNumOfPages = Math.ceil(queryResults["_total"] / requestLimit)
 			totalPageCount.innerText = totalNumOfPages
 
 			if(queryResults["_links"]["next"] && resultPageNumber !== totalNumOfPages){
-				var nextPageLink = document.getElementsByClassName("next-link")[0]
+				showNextLinkButton()
 				nextPageLink.setAttribute("href", queryResults["_links"]["next"])
 				nextPageLink.addEventListener('click', navigateToPage)
 			}
 			if(queryResults["_links"]["prev"]){
-				var previousPageLink = document.getElementsByClassName("previous-link")[0]
+				showPreviousLinkButton()
 				previousPageLink.setAttribute("href", queryResults["_links"]["prev"])
 				previousPageLink.addEventListener('click', navigateToPage)
 			}
@@ -131,6 +133,23 @@ document.addEventListener("DOMContentLoaded", function(){
 		streamDescription.innerText = channelName + " playing " + gameName
 		return streamDescription
 	}
+
+	function showPreviousLinkButton(){
+		previousPageLink.style.display = "inline"
+	}
+
+	function hidePreviousLinkButton(){
+		previousPageLink.style.display = "none"
+	}
+
+	function showNextLinkButton(){
+		nextPageLink.style.display = "inline"
+	}
+
+	function hideNextLinkButton(){
+		nextPageLink.style.display = "none"
+	}
+
 
 	function showResultsCount(){
 		resultsMessage.style.display = "inline"
