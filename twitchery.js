@@ -10,7 +10,6 @@ document.addEventListener("DOMContentLoaded", function(){
 	var searchResultsList = document.getElementById('search-results-list')
 	var resultsCountText = document.getElementById('results-count')
 
-	//lesson learned: without the event.preventDefault(), the search bar would automatically clear its content and remove the dynamically appended content after being submitted
 	function returnSearchResults(event){
 		event.preventDefault()
 		resultsMessage.style.visibility = 'visible'
@@ -73,7 +72,20 @@ document.addEventListener("DOMContentLoaded", function(){
 
 	function handlePagination(queryResults){
 		if(queryResults["_total"] > 10){
-			console.log("generate " + Math.ceil(queryResults["_total"] / 10) + " pages")
+			//denominator in the current page/ total pages
+			// console.log("generate " + Math.ceil(queryResults["_total"] / 10) + " pages")
+			var currentPageNumber = document.getElementById("current-page-number")
+			var indexOfResultPageNumber = queryResults["_links"]["self"].indexOf("offset")
+
+			//identified bug - the api still provides a next link even if there are no streams returned from the next link
+			var resultPageNumber = parseInt(queryResults["_links"]["self"].substring(indexOfResultPageNumber + 7, indexOfResultPageNumber + 8)) + 1
+			currentPageNumber.innerText = resultPageNumber
+
+			var totalPageCount = document.getElementById("total-num-pages")
+			var indexOfLimitParam = queryResults["_links"]["self"].indexOf("limit")
+			var requestLimit = queryResults["_links"]["self"].substring(indexOfLimitParam + 6, indexOfLimitParam + 8)
+			totalPageCount.innerText = Math.ceil(queryResults["_total"] / requestLimit)
+
 			if(queryResults["_links"]["next"]){
 				var nextPageLink = document.getElementsByClassName("next-link")[0]
 				nextPageLink.setAttribute("href", queryResults["_links"]["next"])
@@ -173,7 +185,6 @@ document.addEventListener("DOMContentLoaded", function(){
 		  }
 
 		  }  
-		  alert(this.href)
 		xmlhttp.open("GET", this.href, true)
 		xmlhttp.send()
 	}
