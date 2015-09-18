@@ -75,11 +75,14 @@ document.addEventListener("DOMContentLoaded", function(){
 		if(queryResults["_total"] > 10){
 			console.log("generate " + Math.ceil(queryResults["_total"] / 10) + " pages")
 			if(queryResults["_links"]["next"]){
-			var nextPageLink = document.getElementsByClassName("next-link")[0]
-			nextPageLink.setAttribute("href", queryResults["_links"]["next"])
-			nextPageLink.addEventListener('click', navigateToPage)
+				var nextPageLink = document.getElementsByClassName("next-link")[0]
+				nextPageLink.setAttribute("href", queryResults["_links"]["next"])
+				nextPageLink.addEventListener('click', navigateToPage)
 			}
 			if(queryResults["_links"]["prev"]){
+				var previousPageLink = document.getElementsByClassName("previous-link")[0]
+				previousPageLink.setAttribute("href", queryResults["_links"]["prev"])
+				previousPageLink.addEventListener('click', navigateToPage)
 			}
 		}
 	}
