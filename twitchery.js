@@ -17,51 +17,13 @@ document.addEventListener("DOMContentLoaded", function(){
 	var previousPageLink = document.getElementsByClassName("previous-link")[0]
 
 	function returnSearchResults(event){
-		event.preventDefault()
+		// event.preventDefault()
 		resultsMessage.style.visibility = 'visible'
-		clearSearchResultsList();
+		// clearSearchResultsList();
 
 		var searchQuery = searchBar.value
-
-		var xmlhttp;
-		if (window.XMLHttpRequest)
-		  {// code for IE7+, Firefox, Chrome, Opera, Safari
-		  xmlhttp=new XMLHttpRequest();
-		  }
-		else
-		  {// code for IE6, IE5
-		  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-		  }
-		xmlhttp.onreadystatechange=function()
-		  {
-		  if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
-		    {
-
-		    var queryResults = JSON.parse(xmlhttp.responseText)
-
-		    updateResults(queryResults['_total'])
-
-		    handlePagination(queryResults)
-
-		    var streamResults = queryResults["streams"]
-		    streamResults.forEach(function(result){
-		    	var newRow = createSearchResultRow(result)
-		    	searchResultsList.appendChild(newRow)
-		    	newRow.appendChild(createThumbnailImage(result))
-		    	var infoBox = createInfoBox();
-		    	newRow.appendChild(infoBox)
-		    	infoBox.appendChild(addStreamName(result))
-		    	infoBox.appendChild(addViewersCount(result))
-		    	infoBox.appendChild(addStreamDescription(result))
-		    })
-		    }
-		  else if(xmlhttp.readyState == 4 && xmlhttp.status == 400){
-		  	updateResults()
-		  }
-
-		  }  
-		xmlhttp.open("GET", baseAPIUrl + searchQuery, true)
-		xmlhttp.send()
+		var url = baseAPIUrl + searchQuery
+		navigateToPage(event, url)
 		resetSearchBar();
 	}
 
@@ -193,7 +155,8 @@ document.addEventListener("DOMContentLoaded", function(){
 		pageIndex.style.display = "none"
 	}
 
-	function navigateToPage(event){
+	function navigateToPage(event, url){
+		url = typeof url !== 'undefined' ? url : this.href
 		event.preventDefault()
 		clearSearchResultsList();
 		var xmlhttp;
@@ -233,7 +196,7 @@ document.addEventListener("DOMContentLoaded", function(){
 		  }
 
 		  }  
-		xmlhttp.open("GET", this.href, true)
+		xmlhttp.open("GET", url, true)
 		xmlhttp.send()
 	}
 
