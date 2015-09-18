@@ -15,11 +15,58 @@ document.addEventListener("DOMContentLoaded", function(){
 	var totalPageCount = document.getElementById("total-num-pages")
 	var nextPageLink = document.getElementsByClassName("next-link")[0]
 	var previousPageLink = document.getElementsByClassName("previous-link")[0]
+	nextPageLink.addEventListener('click', navigateToPage)
+	previousPageLink.addEventListener('click', navigateToPage)
 
+
+	function navigateToPage(event, url){
+		url = typeof url !== 'undefined' ? url : this.href
+		event.preventDefault()
+		clearSearchResultsList();
+		var xmlhttp;
+		if (window.XMLHttpRequest)
+		  {// code for IE7+, Firefox, Chrome, Opera, Safari
+		  xmlhttp =new XMLHttpRequest();
+		  }
+		else
+		  {// code for IE6, IE5
+		  xmlhttp =new ActiveXObject("Microsoft.XMLHTTP");
+		  }
+		xmlhttp.onreadystatechange=function()
+		  {
+		  if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+		    {
+		    var queryResults = JSON.parse(xmlhttp.responseText)
+		    updateResults(queryResults['_total'])
+		    handlePagination(queryResults)
+
+		    var streamResults = queryResults["streams"]
+		    streamResults.forEach(function(result){
+		    	var newRow = createSearchResultRow(result)
+		    	searchResultsList.appendChild(newRow)
+		    	newRow.appendChild(createThumbnailImage(result))
+		    	var infoBox = createInfoBox(result);
+		    	newRow.appendChild(infoBox)
+		    })
+		    }
+		  else if(xmlhttp.readyState == 4 && xmlhttp.status == 400){
+		  	updateResults()
+		  }
+		  }  
+		xmlhttp.open("GET", url, true)
+		xmlhttp.send()
+	}
+
+	function clearSearchResultsList(){
+		searchResultsList.innerHTML = "";
+	}
+
+	function resetSearchBar(){
+		searchBar.value = ""
+	}
+	
 	function returnSearchResults(event){
-		// event.preventDefault()
 		resultsMessage.style.visibility = 'visible'
-		// clearSearchResultsList();
 
 		var searchQuery = searchBar.value
 		var url = baseAPIUrl + searchQuery
@@ -27,20 +74,33 @@ document.addEventListener("DOMContentLoaded", function(){
 		resetSearchBar();
 	}
 
-	function clearSearchResultsList(){
-		searchResultsList.innerHTML = "";
+	function throwNoResultsMessage(){
+		hidePageIndex()
+		var noResultsMessage = document.createElement("p")
+		noResultsMessage.innerText = "Sorry, we couldn't find anything. Try something else!"
+		searchResultsList.appendChild(noResultsMessage)
 	}
 
 	function updateResults(resultsCount){
 		if(resultsCount === 0 || resultsCount === undefined){
 			hideResultsCount();
 			throwNoResultsMessage();
+			hidePreviousLinkButton();
+			hideNextLinkButton();
 		}
 		else{
 			showPageIndex()
 			resultsCountText.innerText = resultsCount
 			showResultsCount();
 		}
+	}
+
+	function showResultsCount(){
+		resultsMessage.style.display = "inline"
+	}
+
+	function hideResultsCount(){
+		resultsMessage.style.display = "none"
 	}
 
 	function handlePagination(queryResults){
@@ -60,55 +120,20 @@ document.addEventListener("DOMContentLoaded", function(){
 			if(queryResults["_links"]["next"] && resultPageNumber !== totalNumOfPages){
 				showNextLinkButton()
 				nextPageLink.setAttribute("href", queryResults["_links"]["next"])
-				nextPageLink.addEventListener('click', navigateToPage)
 			}
 			if(queryResults["_links"]["prev"]){
 				showPreviousLinkButton()
 				previousPageLink.setAttribute("href", queryResults["_links"]["prev"])
-				previousPageLink.addEventListener('click', navigateToPage)
 			}
 		}
 	}
 
-	function createSearchResultRow(resultStreamObject){
-		var resultDiv = document.createElement("div")
-		resultDiv.classList.add('row', 'w-100')
-		return resultDiv
+	function showPageIndex(){
+		pageIndex.style.display = "inline"
 	}
 
-	function createInfoBox(){
-		var infoBox = document.createElement('div')
-		infoBox.classList.add('info-box', 'pos-abs', 'mrg-left-20p', 'inline-b')
-		return infoBox
-	}
-
-	function createThumbnailImage(resultStreamObject){
-		var thumbnailUrl = resultStreamObject["preview"]["medium"]
-		var thumbnailImage = new Image('180', '180')
-		thumbnailImage.classList.add('thumbnail-img', 'inline-b')
-		thumbnailImage.src = thumbnailUrl
-		return thumbnailImage
-	}
-
-	function addStreamName(resultStreamObject){
-		var streamName = document.createElement('h3')
-		streamName.classList.add('mrg-top-0', 'pad-right-40p')
-		streamName.innerText = resultStreamObject["channel"]["status"]
-		return streamName
-	}
-
-	function addViewersCount(resultStreamObject){
-		var viewersCount = document.createElement('p')
-		viewersCount.innerText = resultStreamObject.game + ' - ' + resultStreamObject.viewers + ' viewers'
-		return viewersCount
-	}
-
-	function addStreamDescription(resultStreamObject){
-		var streamDescription = document.createElement('p')
-		var channelName = resultStreamObject["channel"]["display_name"]
-		var gameName = resultStreamObject["channel"]["game"]
-		streamDescription.innerText = channelName + " playing " + gameName
-		return streamDescription
+	function hidePageIndex(){
+		pageIndex.style.display = "none"
 	}
 
 	function showPreviousLinkButton(){
@@ -127,78 +152,48 @@ document.addEventListener("DOMContentLoaded", function(){
 		nextPageLink.style.display = "none"
 	}
 
-
-	function showResultsCount(){
-		resultsMessage.style.display = "inline"
+	function createSearchResultRow(streamObject){
+		var resultDiv = document.createElement("div")
+		resultDiv.classList.add('row', 'w-100')
+		return resultDiv
 	}
 
-	function hideResultsCount(){
-		resultsMessage.style.display = "none"
+	function createThumbnailImage(streamObject){
+		var thumbnailUrl = streamObject["preview"]["medium"]
+		var thumbnailImage = new Image('180', '180')
+		thumbnailImage.classList.add('thumbnail-img', 'inline-b')
+		thumbnailImage.src = thumbnailUrl
+		return thumbnailImage
 	}
 
-	function throwNoResultsMessage(){
-		hidePageIndex()
-		var noResultsMessage = document.createElement("p")
-		noResultsMessage.innerText = "Sorry, we couldn't find anything. Try something else!"
-		searchResultsList.appendChild(noResultsMessage)
+	function createInfoBox(streamObject){
+		var infoBox = document.createElement('div')
+		infoBox.classList.add('info-box', 'pos-abs', 'mrg-left-20p', 'inline-b')
+		infoBox.appendChild(renderStreamName(streamObject))
+		infoBox.appendChild(renderViewersCount(streamObject))
+		infoBox.appendChild(renderStreamDescription(streamObject))
+		return infoBox
 	}
 
-	function resetSearchBar(){
-		searchBar.value = ""
+	function renderStreamName(streamObject){
+		var streamName = document.createElement('h3')
+		streamName.classList.add('mrg-top-0', 'pad-right-40p')
+		streamName.innerText = streamObject["channel"]["status"]
+		return streamName
 	}
 
-	function showPageIndex(){
-		pageIndex.style.display = "inline"
+	function renderViewersCount(streamObject){
+		var viewersCount = document.createElement('p')
+		viewersCount.innerText = streamObject.game + ' - ' + streamObject.viewers + ' viewers'
+		return viewersCount
 	}
 
-	function hidePageIndex(){
-		pageIndex.style.display = "none"
-	}
-
-	function navigateToPage(event, url){
-		url = typeof url !== 'undefined' ? url : this.href
-		event.preventDefault()
-		clearSearchResultsList();
-		var xmlhttp;
-		if (window.XMLHttpRequest)
-		  {// code for IE7+, Firefox, Chrome, Opera, Safari
-		  xmlhttp =new XMLHttpRequest();
-		  }
-		else
-		  {// code for IE6, IE5
-		  xmlhttp =new ActiveXObject("Microsoft.XMLHTTP");
-		  }
-		xmlhttp.onreadystatechange=function()
-		  {
-		  if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
-		    {
-
-		    var queryResults = JSON.parse(xmlhttp.responseText)
-
-		    updateResults(queryResults['_total'])
-
-		    handlePagination(queryResults)
-
-		    var streamResults = queryResults["streams"]
-		    streamResults.forEach(function(result){
-		    	var newRow = createSearchResultRow(result)
-		    	searchResultsList.appendChild(newRow)
-		    	newRow.appendChild(createThumbnailImage(result))
-		    	var infoBox = createInfoBox();
-		    	newRow.appendChild(infoBox)
-		    	infoBox.appendChild(addStreamName(result))
-		    	infoBox.appendChild(addViewersCount(result))
-		    	infoBox.appendChild(addStreamDescription(result))
-		    })
-		    }
-		  else if(xmlhttp.readyState == 4 && xmlhttp.status == 400){
-		  	updateResults()
-		  }
-
-		  }  
-		xmlhttp.open("GET", url, true)
-		xmlhttp.send()
+	function renderStreamDescription(streamObject){
+		var streamDescription = document.createElement('p')
+		var channelName = streamObject["channel"]["display_name"]
+		var gameName = streamObject["channel"]["game"]
+		streamDescription.innerText = channelName + " playing " + gameName
+		return streamDescription
 	}
 
 })
-
