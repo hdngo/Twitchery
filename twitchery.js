@@ -84,9 +84,10 @@ document.addEventListener("DOMContentLoaded", function(){
 			var totalPageCount = document.getElementById("total-num-pages")
 			var indexOfLimitParam = queryResults["_links"]["self"].indexOf("limit")
 			var requestLimit = queryResults["_links"]["self"].substring(indexOfLimitParam + 6, indexOfLimitParam + 8)
-			totalPageCount.innerText = Math.ceil(queryResults["_total"] / requestLimit)
+			var totalNumOfPages = Math.ceil(queryResults["_total"] / requestLimit)
+			totalPageCount.innerText = totalNumOfPages
 
-			if(queryResults["_links"]["next"]){
+			if(queryResults["_links"]["next"] && resultPageNumber !== totalNumOfPages){
 				var nextPageLink = document.getElementsByClassName("next-link")[0]
 				nextPageLink.setAttribute("href", queryResults["_links"]["next"])
 				nextPageLink.addEventListener('click', navigateToPage)
