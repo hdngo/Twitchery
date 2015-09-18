@@ -75,12 +75,11 @@ document.addEventListener("DOMContentLoaded", function(){
 		if(queryResults["_total"] > 10){
 			console.log("generate " + Math.ceil(queryResults["_total"] / 10) + " pages")
 			if(queryResults["_links"]["next"]){
-			alert(queryResults["_links"]["next"])
 			var nextPageLink = document.getElementsByClassName("next-link")[0]
 			nextPageLink.setAttribute("href", queryResults["_links"]["next"])
+			nextPageLink.addEventListener('click', navigateToPage)
 			}
 			if(queryResults["_links"]["prev"]){
-				alert(queryResults["_links"]["prev"])
 			}
 		}
 	}
@@ -135,7 +134,9 @@ document.addEventListener("DOMContentLoaded", function(){
 		searchBar.value = ""
 	}
 
-	function navigateToPage(){
+	function navigateToPage(event){
+		event.preventDefault()
+		clearSearchResultsList();
 		var xmlhttp;
 		if (window.XMLHttpRequest)
 		  {// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -169,7 +170,8 @@ document.addEventListener("DOMContentLoaded", function(){
 		  }
 
 		  }  
-		xmlhttp.open("GET", baseAPIUrl + searchQuery, true)
+		  alert(this.href)
+		xmlhttp.open("GET", this.href, true)
 		xmlhttp.send()
 	}
 
