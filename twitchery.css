@@ -21,9 +21,13 @@ html, body{
 	padding-left: 10%;
 }
 
+.displ-none{
+	display:none;
+}
+/*
 #results-message{
 	display: none;
-}
+}*/
 
 #pagination-links{
 	float: right;
