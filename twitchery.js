@@ -42,14 +42,14 @@ document.addEventListener("DOMContentLoaded", function(){
 		  	if(!loadingImage){
 		  	loadingImage = new Image("454", "70");
 		  	loadingImage.src = "./imgs/twitching.png";
-		  	loadingImage.classList.add("block", "mrg-0-auto")
-		  	loadingImage.setAttribute("id", "loading-image")
-		  	searchResults.appendChild(loadingImage)
+		  	loadingImage.classList.add("block", "mrg-0-auto");
+		  	loadingImage.setAttribute("id", "loading-image");
+		  	searchResults.appendChild(loadingImage);
 		  	}
 		  }
 		  if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
 		    {
-		    searchResults.removeChild(loadingImage)
+		    searchResults.removeChild(loadingImage);
 		    var queryResults = JSON.parse(xmlhttp.responseText);
 		    updateResults(queryResults["_total"]);
 		    handlePagination(queryResults);
@@ -62,8 +62,10 @@ document.addEventListener("DOMContentLoaded", function(){
 		    	var infoBox = createInfoBox(result);
 		    	newRow.appendChild(infoBox);
 		    })
+		    searchResultsList.appendChild(addScrollToTopButton());
 		    }
 		  else if(xmlhttp.readyState == 4 && xmlhttp.status == 400){
+		  	searchResults.removeChild(loadingImage);
 		  	updateResults();
 		  }
 		  }  
@@ -187,6 +189,19 @@ document.addEventListener("DOMContentLoaded", function(){
 		var gameName = streamObject["channel"]["game"];
 		streamDescription.innerText = channelName + " playing " + gameName;
 		return streamDescription;
+	}
+
+	function addScrollToTopButton(){
+		var scrollButton = document.createElement("button")
+		scrollButton.classList.add("page-button", "fl-right", "twitch-color", "link", "mrg-top-60p", "mrg-bot-60p");
+		scrollButton.innerText = "^";
+		scrollButton.addEventListener("click", scrollToTop);
+		return scrollButton;
+	}
+
+	function scrollToTop(event){
+		event.preventDefault();
+		window.scrollTo(0, 0)
 	}
 
 })

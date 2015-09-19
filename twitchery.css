@@ -55,6 +55,10 @@ input[type=submit]:hover
 	display: none;
 }
 
+.fl-right{
+	float:right;
+}
+
 .info-box
 {
 	max-width: 600px;
