@@ -42,15 +42,15 @@ Check it out live [here](http://htmlpreview.github.io/?https://github.com/hdngo/
 
 
 ##Resources used:
-* Google
-* Mozilla Developer Network
-** [Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)
-** [Image Constructor](https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement/Image)
-* W3Schools
-** [XMLHttpRequests](http://www.w3schools.com/ajax/ajax_xmlhttprequest_create.asp)
-* StackOverflow
-** [XHR readyStates](http://stackoverflow.com/questions/632774/what-do-the-different-readystates-in-xmlhttprequest-mean-and-how-can-i-use-them)
-** [Default Parameters](http://stackoverflow.com/questions/894860/set-a-default-parameter-value-for-a-javascript-function)
-** [Removing Form Box Shadows](http://stackoverflow.com/questions/24222798/how-to-remove-the-blue-box-shadow-border-in-button-if-clicked)
-* Twitch API Docs
-** [Search](https://github.com/justintv/Twitch-API/blob/master/v3_resources/search.md)
+- Google
+- Mozilla Developer Network
+  - [Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)
+  - [Image Constructor](https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement/Image)
+- W3Schools
+  - [XMLHttpRequests](http://www.w3schools.com/ajax/ajax_xmlhttprequest_create.asp)
+- StackOverflow
+  - [XHR readyStates](http://stackoverflow.com/questions/632774/what-do-the-different-readystates-in-xmlhttprequest-mean-and-how-can-i-use-them)
+  - [Default Parameters](http://stackoverflow.com/questions/894860/set-a-default-parameter-value-for-a-javascript-function)
+  - [Removing Form Box Shadows](http://stackoverflow.com/questions/24222798/how-to-remove-the-blue-box-shadow-border-in-button-if-clicked)
+- Twitch API Docs
+  - [Search](https://github.com/justintv/Twitch-API/blob/master/v3_resources/search.md)
