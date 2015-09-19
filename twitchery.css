@@ -41,6 +41,10 @@ input[type=submit]:hover
 	cursor: pointer;
 }
 
+.block{
+	display: block;
+}
+
 .bold
 {
 	font-weight: 600;
@@ -165,3 +169,76 @@ input[type=submit].active
 	vertical-align: middle;
 }
 
+/* twitch loading animation*/
+
+#loading-image{
+	-webkit-animation: twitch 1s linear infinite;
+	animation: twitch 1s linear infinite;
+}
+
+@-webkit-keyframes twitch
+{
+  15%
+  {
+      -webkit-transform: translateX(5px);
+      transform: translateX(5px);
+  }
+  30%
+  {
+      -webkit-transform: translateX(-5px);
+     transform: translateX(-5px);
+  } 
+  50%
+  {
+      -webkit-transform: translateX(2px);
+      transform: translateX(2px);
+  }
+  65%
+  {
+      -webkit-transform: translateX(-4px);
+      transform: translateX(-4px);
+  }
+  80%
+  {
+      -webkit-transform: translateX(3px);
+      transform: translateX(3px);
+  }
+  100%
+  {
+      -webkit-transform: translateX(0);
+      transform: translateX(0);
+  }
+}
+@keyframes twitch
+{
+	15%
+	{
+	    -webkit-transform: translateX(5px);
+	    transform: translateX(5px);
+	}
+	30%
+	{
+	    -webkit-transform: translateX(-5px);
+	   transform: translateX(-5px);
+	} 
+	50%
+	{
+	    -webkit-transform: translateX(2px);
+	    transform: translateX(2px);
+	}
+	65%
+	{
+	    -webkit-transform: translateX(-4px);
+	    transform: translateX(-4px);
+	}
+	80%
+	{
+	    -webkit-transform: translateX(3px);
+	    transform: translateX(3px);
+	}
+	100%
+	{
+	    -webkit-transform: translateX(0);
+	    transform: translateX(0);
+	}
+}

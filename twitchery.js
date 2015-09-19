@@ -25,6 +25,7 @@ document.addEventListener("DOMContentLoaded", function(){
 		url = typeof url !== 'undefined' ? url : this.href;
 		event.preventDefault();
 		clearSearchResultsList();
+		var loadingImage = document.getElementById("loading-image")
 		var xmlhttp;
 		if (window.XMLHttpRequest)
 		  {// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -36,10 +37,20 @@ document.addEventListener("DOMContentLoaded", function(){
 		  }
 		xmlhttp.onreadystatechange=function()
 		  {
+		  if(xmlhttp.readyState >= 1 && xmlhttp.readyState <= 3){
+		  	if(!loadingImage){
+		  	loadingImage = new Image("454", "70");
+		  	loadingImage.src = "./imgs/twitching.png";
+		  	loadingImage.classList.add("block", "mrg-0-auto")
+		  	loadingImage.setAttribute("id", "loading-image")
+		  	searchResults.appendChild(loadingImage)
+		  	}
+		  }
 		  if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
 		    {
+		    searchResults.removeChild(loadingImage)
 		    var queryResults = JSON.parse(xmlhttp.responseText);
-		    updateResults(queryResults['_total']);
+		    updateResults(queryResults["_total"]);
 		    handlePagination(queryResults);
 
 		    var streamResults = queryResults["streams"];
