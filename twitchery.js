@@ -1,9 +1,11 @@
 document.addEventListener("DOMContentLoaded", function(){
+	
 	var baseAPIUrl = "https://api.twitch.tv/kraken/search/streams?q=";
 
 	var searchForm = document.getElementsByTagName("form")[0];
 	searchForm.addEventListener("submit", returnSearchResults);
 	var searchBar = searchForm.children[0];
+	var searchEntryText = document.getElementById("search-entry")
 
 	var resultsMessage = document.getElementById('results-message');
 	var searchResults = document.getElementById('search-results');
@@ -66,9 +68,10 @@ document.addEventListener("DOMContentLoaded", function(){
 	}
 	
 	function returnSearchResults(event){
-		resultsMessage.style.visibility = 'visible';
+		resultsMessage.style.visibility = "visible";
 
 		var searchQuery = searchBar.value;
+		searchEntryText.innerText = searchQuery
 		var url = baseAPIUrl + searchQuery;
 		navigateToPage(event, url);
 		resetSearchBar();
