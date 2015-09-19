@@ -17,6 +17,10 @@ Check it out live [here](http://htmlpreview.github.io/?https://github.com/hdngo/
 * A user can see the results from their search.
 * A user can page through multiple results.
 
+##Screenshots
+![Landing Page](https://github.com/hdngo/Twitchery/blob/master/imgs/default-screen.png)
+![Sample Results Page](https://github.com/hdngo/Twitchery/blob/master/imgs/sample-results.png)
+
 ##Personal Goals for this challenge
 * Be consistent in the use of single / double quotes.
 * Apply 'Atomic CSS' patterns.
