@@ -98,14 +98,6 @@ document.addEventListener("DOMContentLoaded", function(){
 		}
 	}
 
-	function showResultsCount(){
-		resultsMessage.style.display = "inline";
-	}
-
-	function hideResultsCount(){
-		resultsMessage.style.display = "none";
-	}
-
 	function handlePagination(queryResults){
 		toggleDisplay(previousPageLink, "none");
 		toggleDisplay(nextPageLink, "none");
