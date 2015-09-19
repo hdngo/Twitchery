@@ -65,6 +65,13 @@ input[type=submit]:hover
 	display: inline-block;
 }
 
+.link, 
+.link:active,
+.link:visited{
+	text-decoration: none;
+	color: #6441a5;
+}
+
 .link:hover
 {
 	cursor: pointer;
@@ -133,8 +140,11 @@ input[type=submit].active
 {
 	padding-top: 20px;
 	padding-bottom: 20px;
-
 	border-bottom: 1px solid #6441a5;
+}
+
+.twitch-color{
+	color: #6441a5;
 }
 
 .w-60
