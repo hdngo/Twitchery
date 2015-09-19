@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", function(){
 	
+	var twitchUrl = "https://twitch.tv/"
 	var baseAPIUrl = "https://api.twitch.tv/kraken/search/streams?q=";
 
 	var searchForm = document.getElementsByTagName("form")[0];
@@ -7,22 +8,22 @@ document.addEventListener("DOMContentLoaded", function(){
 	var searchBar = searchForm.children[0];
 	var searchEntryText = document.getElementById("search-entry")
 
-	var resultsMessage = document.getElementById('results-message');
-	var searchResults = document.getElementById('search-results');
-	var searchResultsList = document.getElementById('search-results-list');
-	var resultsCountText = document.getElementById('results-count');
+	var resultsMessage = document.getElementById("results-message");
+	var searchResults = document.getElementById("search-results");
+	var searchResultsList = document.getElementById("search-results-list");
+	var resultsCountText = document.getElementById("results-count");
 
 	var pageIndex = document.getElementById("page-index");
 	var currentPageNumber = document.getElementById("current-page-number");
 	var totalPageCount = document.getElementById("total-num-pages");
 	var nextPageLink = document.getElementsByClassName("next-link")[0];
 	var previousPageLink = document.getElementsByClassName("previous-link")[0];
-	nextPageLink.addEventListener('click', navigateToPage);
-	previousPageLink.addEventListener('click', navigateToPage);
+	nextPageLink.addEventListener("click", navigateToPage);
+	previousPageLink.addEventListener("click", navigateToPage);
 
 
 	function navigateToPage(event, url){
-		url = typeof url !== 'undefined' ? url : this.href;
+		url = typeof url !== "undefined" ? url : this.href;
 		event.preventDefault();
 		clearSearchResultsList();
 		var loadingImage = document.getElementById("loading-image")
@@ -142,21 +143,21 @@ document.addEventListener("DOMContentLoaded", function(){
 
 	function createSearchResultRow(streamObject){
 		var resultDiv = document.createElement("div");
-		resultDiv.classList.add('row', 'w-100');
+		resultDiv.classList.add("row", "w-100");
 		return resultDiv;
 	}
 
 	function createThumbnailImage(streamObject){
 		var thumbnailUrl = streamObject["preview"]["medium"];
-		var thumbnailImage = new Image('180', '180');
-		thumbnailImage.classList.add('thumbnail-img', 'inline-b');
+		var thumbnailImage = new Image("180", "180");
+		thumbnailImage.classList.add("thumbnail-img", "inline-b");
 		thumbnailImage.src = thumbnailUrl;
 		return thumbnailImage;
 	}
 
 	function createInfoBox(streamObject){
-		var infoBox = document.createElement('div');
-		infoBox.classList.add('info-box', 'pos-abs', 'mrg-left-20p', 'inline-b');
+		var infoBox = document.createElement("div");
+		infoBox.classList.add("info-box", "pos-abs", "mrg-left-20p", "inline-b");
 		infoBox.appendChild(renderStreamName(streamObject));
 		infoBox.appendChild(renderViewersCount(streamObject));
 		infoBox.appendChild(renderStreamDescription(streamObject));
@@ -164,20 +165,24 @@ document.addEventListener("DOMContentLoaded", function(){
 	}
 
 	function renderStreamName(streamObject){
-		var streamName = document.createElement('h3');
-		streamName.classList.add('mrg-top-0', 'pad-right-40p');
-		streamName.innerText = streamObject["channel"]["status"];
+		var streamName = document.createElement("h3");
+		streamName.classList.add("mrg-top-0", "pad-right-40p");
+		var streamLink = document.createElement("a")
+		streamLink.setAttribute("href", twitchUrl + streamObject["channel"]["display_name"]);
+		streamLink.classList.add("link", "twitch-color");
+		streamLink.innerText = streamObject["channel"]["status"];
+		streamName.appendChild(streamLink);
 		return streamName;
 	}
 
 	function renderViewersCount(streamObject){
-		var viewersCount = document.createElement('p');
-		viewersCount.innerText = streamObject.game + ' - ' + streamObject.viewers + ' viewers';
+		var viewersCount = document.createElement("p");
+		viewersCount.innerText = streamObject.game + " - " + streamObject.viewers + " viewers";
 		return viewersCount;
 	}
 
 	function renderStreamDescription(streamObject){
-		var streamDescription = document.createElement('p');
+		var streamDescription = document.createElement("p");
 		var channelName = streamObject["channel"]["display_name"];
 		var gameName = streamObject["channel"]["game"];
 		streamDescription.innerText = channelName + " playing " + gameName;
