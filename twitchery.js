@@ -191,7 +191,9 @@ document.addEventListener("DOMContentLoaded", function(){
 		var gameName = streamObject["channel"]["game"];
 		streamDescription.innerText = channelName + " playing " + gameName;
 		streamDescription.setAttribute("id", channelName)
-		streamDescription.addEventListener("mouseover", addTooltip)
+		streamDescription.appendChild(addTooltip(streamObject))
+		streamDescription.addEventListener("mouseover", showTooltip)
+		streamDescription.addEventListener("mouseleave", hideTooltip)
 		return streamDescription;
 	}
 
@@ -208,15 +210,31 @@ document.addEventListener("DOMContentLoaded", function(){
 		window.scrollTo(0, 0)
 	}
 
-	function addTooltip(){
+	function addTooltip(streamObject){
 		var tooltip = document.createElement('span')
-		tooltip.style.backgroundColor = 'red'
-		tooltip.style.position = 'relative'
+		tooltip.style.position = 'absolute'
+		tooltip.style.top = '0'
+		tooltip.style.left = '0'
 		tooltip.style.height = '200px'
 		tooltip.style.width = '200px'
-		tooltip.innerText = 'hi'
+		tooltip.innerText = streamObject["channel"]["display_name"]
 		tooltip.style.zIndex = '1'
-		tooltip.style.display = 'visible'
-		this.appendChild(tooltip)
+		tooltip.style.display = 'none'
+
+		var channelLogo = new Image("150", "150")
+		channelLogo.src = streamObject["channel"]["logo"]
+
+		tooltip.appendChild(channelLogo)
+		return tooltip
+	}
+
+	function showTooltip(){
+		// console.log(this.children[0])
+		// this.children[0].s
+		toggleDisplay(this.children[0], "block")
+	}
+
+	function hideTooltip(){
+		toggleDisplay(this.children[0], "none")
 	}
 })
