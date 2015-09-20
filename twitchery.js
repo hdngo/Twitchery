@@ -1,13 +1,13 @@
 document.addEventListener("DOMContentLoaded", function(){
 	
-	var twitchUrl = "https://twitch.tv/"
+	var twitchUrl = "https://twitch.tv/";
 	var baseAPIUrl = "https://api.twitch.tv/kraken/search/streams?q=";
-	var baseChannelAPIUrl = "https://api.twitch.tv/kraken/channels/"
+	var baseChannelAPIUrl = "https://api.twitch.tv/kraken/channels/";
 
 	var searchForm = document.getElementsByTagName("form")[0];
 	searchForm.addEventListener("submit", returnSearchResults);
 	var searchBar = searchForm.children[0];
-	var searchEntryText = document.getElementById("search-entry")
+	var searchEntryText = document.getElementById("search-entry");
 
 	var resultsMessage = document.getElementById("results-message");
 	var searchResults = document.getElementById("search-results");
@@ -86,7 +86,7 @@ document.addEventListener("DOMContentLoaded", function(){
 		resultsMessage.style.visibility = "visible";
 
 		var searchQuery = searchBar.value;
-		searchEntryText.innerText = searchQuery
+		searchEntryText.innerText = searchQuery;
 		var url = baseAPIUrl + searchQuery;
 		navigateToPage(event, url);
 		resetSearchBar();
@@ -186,19 +186,19 @@ document.addEventListener("DOMContentLoaded", function(){
 
 	function renderStreamDescription(streamObject){
 		var streamDescription = document.createElement("p");
-		streamDescription.classList.add("stream-description")
+		streamDescription.classList.add("stream-description");
 		var channelName = streamObject["channel"]["display_name"];
 		var gameName = streamObject["channel"]["game"];
 		streamDescription.innerText = channelName + " playing " + gameName;
-		streamDescription.setAttribute("id", channelName)
-		streamDescription.appendChild(addTooltip(streamObject))
-		streamDescription.addEventListener("mouseover", showTooltip)
-		streamDescription.addEventListener("mouseleave", hideTooltip)
+		streamDescription.setAttribute("id", channelName);
+		streamDescription.appendChild(addTooltip(streamObject));
+		streamDescription.addEventListener("mouseover", showTooltip);
+		streamDescription.addEventListener("mouseleave", hideTooltip);
 		return streamDescription;
 	}
 
 	function addScrollToTopButton(){
-		var scrollButton = document.createElement("button")
+		var scrollButton = document.createElement("button");
 		scrollButton.classList.add("page-button", "fl-right", "twitch-color", "link", "mrg-top-60p", "mrg-bot-60p");
 		scrollButton.innerText = "^";
 		scrollButton.addEventListener("click", scrollToTop);
@@ -207,43 +207,43 @@ document.addEventListener("DOMContentLoaded", function(){
 
 	function scrollToTop(event){
 		event.preventDefault();
-		window.scrollTo(0, 0)
+		window.scrollTo(0, 0);
 	}
 
 	function addTooltip(streamObject){
 		var tooltip = document.createElement('span')
-		tooltip.innerText = streamObject["channel"]["display_name"]
-		tooltip.classList.add("tooltip","pad-10p", "pos-rel", "pos-top-0", "pos-left-0", "cntr-txt", "displ-none", "bg-white")
+		tooltip.innerText = streamObject["channel"]["display_name"];
+		tooltip.classList.add("tooltip","pad-10p", "pos-rel", "pos-top-0", "pos-left-0", "cntr-txt", "displ-none", "bg-white");
 
 		var channelLogo = new Image("150", "150")
-		channelLogo.classList.add("block", "mrg-0-auto", "img-border")
-		channelLogo.src = streamObject["channel"]["logo"]
-		tooltip.appendChild(channelLogo)
-		tooltip.addEventListener("click", goToChannelProfile)
-		return tooltip
+		channelLogo.classList.add("block", "mrg-0-auto", "img-border");
+		channelLogo.src = streamObject["channel"]["logo"];
+		tooltip.appendChild(channelLogo);
+		tooltip.addEventListener("click", goToChannelProfile);
+		return tooltip;
 	}
 
 	function showTooltip(){
-		toggleDisplay(this.children[0], "block")
-		tintBackground()
+		toggleDisplay(this.children[0], "block");
+		tintBackground();
 	}
 
 	function hideTooltip(){
-		toggleDisplay(this.children[0], "none")
-		untintBackground()
+		toggleDisplay(this.children[0], "none");
+		untintBackground();
 	}
 
 	function tintBackground(){
-		document.body.style.backgroundColor = "#fbf7ff"
-		document.body.style.opacity = ".9"
+		document.body.style.backgroundColor = "#fbf7ff";
+		document.body.style.opacity = ".9";
 	}
 
 	function untintBackground(){
-		document.body.style.backgroundColor = "#FFFFFF"
-		document.body.style.opacity = "1"
+		document.body.style.backgroundColor = "#FFFFFF";
+		document.body.style.opacity = "1";
 	}
 
 	function goToChannelProfile(){
-		window.open(twitchUrl + this.innerText + "/profile")
+		window.open(twitchUrl + this.innerText + "/profile");
 	}
 })
