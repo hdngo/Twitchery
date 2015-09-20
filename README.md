@@ -1,7 +1,7 @@
 # Twitchery
-Twitchery is a web app that allows you to search for Twitch streams!
+Twitchery is a single page web app that allows you to search for Twitch streams!
 
-It's witchcraft with Twitch's craft!
+It's witchcraft with Twitch's craft..! Yet for some reason, I named it with the word sorcery in mind..
 
 Check it out live [here](http://htmlpreview.github.io/?https://github.com/hdngo/Twitchery/blob/master/index.html).
 
