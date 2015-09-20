@@ -185,9 +185,11 @@ document.addEventListener("DOMContentLoaded", function(){
 
 	function renderStreamDescription(streamObject){
 		var streamDescription = document.createElement("p");
+		streamDescription.classList.add("stream-description")
 		var channelName = streamObject["channel"]["display_name"];
 		var gameName = streamObject["channel"]["game"];
 		streamDescription.innerText = channelName + " playing " + gameName;
+		streamDescription.setAttribute("id", channelName)
 		return streamDescription;
 	}
 

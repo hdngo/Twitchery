@@ -147,6 +147,10 @@ input[type=submit].active
 	border-bottom: 1px solid #6441a5;
 }
 
+.stream-description:hover{
+	color: #6441a5;
+}
+
 .twitch-color{
 	color: #6441a5;
 }
