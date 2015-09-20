@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", function(){
 	
 	var twitchUrl = "https://twitch.tv/"
 	var baseAPIUrl = "https://api.twitch.tv/kraken/search/streams?q=";
+	var baseChannelAPIUrl = "https://api.twitch.tv/kraken/channels/"
 
 	var searchForm = document.getElementsByTagName("form")[0];
 	searchForm.addEventListener("submit", returnSearchResults);
@@ -190,6 +191,7 @@ document.addEventListener("DOMContentLoaded", function(){
 		var gameName = streamObject["channel"]["game"];
 		streamDescription.innerText = channelName + " playing " + gameName;
 		streamDescription.setAttribute("id", channelName)
+		streamDescription.addEventListener("mouseover", addTooltip)
 		return streamDescription;
 	}
 
@@ -206,4 +208,15 @@ document.addEventListener("DOMContentLoaded", function(){
 		window.scrollTo(0, 0)
 	}
 
+	function addTooltip(){
+		var tooltip = document.createElement('span')
+		tooltip.style.backgroundColor = 'red'
+		tooltip.style.position = 'relative'
+		tooltip.style.height = '200px'
+		tooltip.style.width = '200px'
+		tooltip.innerText = 'hi'
+		tooltip.style.zIndex = '1'
+		tooltip.style.display = 'visible'
+		this.appendChild(tooltip)
+	}
 })
