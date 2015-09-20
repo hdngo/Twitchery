@@ -153,7 +153,7 @@ document.addEventListener("DOMContentLoaded", function(){
 	function createThumbnailImage(streamObject){
 		var thumbnailUrl = streamObject["preview"]["medium"];
 		var thumbnailImage = new Image("180", "180");
-		thumbnailImage.classList.add("thumbnail-img", "inline-b");
+		thumbnailImage.classList.add("thumbnail-img", "inline-b", "img-border");
 		thumbnailImage.src = thumbnailUrl;
 		return thumbnailImage;
 	}
@@ -212,29 +212,38 @@ document.addEventListener("DOMContentLoaded", function(){
 
 	function addTooltip(streamObject){
 		var tooltip = document.createElement('span')
-		tooltip.style.position = 'absolute'
-		tooltip.style.top = '0'
-		tooltip.style.left = '0'
-		tooltip.style.height = '200px'
-		tooltip.style.width = '200px'
 		tooltip.innerText = streamObject["channel"]["display_name"]
-		tooltip.style.zIndex = '1'
-		tooltip.style.display = 'none'
+		tooltip.classList.add("tooltip","pad-10p", "pos-rel", "pos-top-0", "pos-left-0", "cntr-txt", "displ-none", "bg-white")
 
 		var channelLogo = new Image("150", "150")
+		channelLogo.classList.add("block", "mrg-0-auto", "img-border")
 		channelLogo.src = streamObject["channel"]["logo"]
-
 		tooltip.appendChild(channelLogo)
+		tooltip.addEventListener("click", goToChannelProfile)
 		return tooltip
 	}
 
 	function showTooltip(){
-		// console.log(this.children[0])
-		// this.children[0].s
 		toggleDisplay(this.children[0], "block")
+		tintBackground()
 	}
 
 	function hideTooltip(){
 		toggleDisplay(this.children[0], "none")
+		untintBackground()
+	}
+
+	function tintBackground(){
+		document.body.style.backgroundColor = "#fbf7ff"
+		document.body.style.opacity = ".9"
+	}
+
+	function untintBackground(){
+		document.body.style.backgroundColor = "#FFFFFF"
+		document.body.style.opacity = "1"
+	}
+
+	function goToChannelProfile(){
+		window.open(twitchUrl + this.innerText + "/profile")
 	}
 })

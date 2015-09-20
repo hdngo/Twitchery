@@ -41,6 +41,10 @@ input[type=submit]:hover
 	cursor: pointer;
 }
 
+.bg-white{
+	background-color: #ffffff;
+}
+
 .block{
 	display: block;
 }
@@ -50,13 +54,24 @@ input[type=submit]:hover
 	font-weight: 600;
 }
 
+.cntr-txt
+{
+	text-align: center;
+}
+
 .displ-none
 {
 	display: none;
 }
 
-.fl-right{
+.fl-right
+{
 	float:right;
+}
+
+.img-border
+{
+	border: 3px groove #6441A5
 }
 
 .info-box
@@ -123,6 +138,11 @@ input[type=submit].active
 	margin-top: 60px;
 }
 
+.pad-10p
+{
+	padding: 10px 10px;
+}
+
 .pad-right-40p
 {
 	padding-right: 40px;
@@ -140,15 +160,48 @@ input[type=submit].active
 	position: absolute;
 }
 
+
+.pos-left-0
+{
+	left: 0;
+}
+
+.pos-rel
+{
+	position: relative;
+}
+
+.pos-top-0
+{
+	top: 0;
+}
+
 .row
 {
 	padding-top: 20px;
 	padding-bottom: 20px;
-	border-bottom: 1px solid #6441a5;
+	border-bottom: 2px solid #6441A5;
 }
 
-.stream-description:hover{
+.stream-description
+{
+	color: #420dbf;
+}
+
+.stream-description:hover
+{
 	color: #6441a5;
+}
+
+.tooltip{
+	height: 200px;
+	width: 200px;
+	border: 3px groove #6441A5;
+	z-index: 1;
+}
+
+.tooltip:hover{
+	cursor: pointer;
 }
 
 .twitch-color{
