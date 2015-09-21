@@ -155,6 +155,7 @@ document.addEventListener("DOMContentLoaded", function(){
 		var thumbnailImage = new Image("180", "180");
 		thumbnailImage.classList.add("thumbnail-img", "inline-b", "img-border");
 		thumbnailImage.src = thumbnailUrl;
+		thumbnailImage.addEventListener("click", goToStreamPage)
 		return thumbnailImage;
 	}
 
@@ -245,5 +246,10 @@ document.addEventListener("DOMContentLoaded", function(){
 
 	function goToChannelProfile(){
 		window.open(twitchUrl + this.innerText + "/profile");
+	}
+
+	function goToStreamPage(){
+		var streamUrl = this.nextSibling.children[0].children[0].attributes["href"]["value"]
+		window.open(streamUrl)
 	}
 })

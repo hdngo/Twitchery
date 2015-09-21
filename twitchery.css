@@ -193,6 +193,10 @@ input[type=submit].active
 	color: #6441a5;
 }
 
+.thumbnail-img:hover{
+	cursor: pointer;
+}
+
 .tooltip{
 	height: 200px;
 	width: 200px;
