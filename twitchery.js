@@ -1,4 +1,7 @@
 document.addEventListener("DOMContentLoaded", function(){
+	animateHomeScreen();
+	var twitchery = document.getElementById("twitchery")
+	var welcomeBox = document.getElementById("welcome-box")
 	
 	var twitchUrl = "https://twitch.tv/";
 	var baseAPIUrl = "https://api.twitch.tv/kraken/search/streams?q=";
@@ -83,6 +86,7 @@ document.addEventListener("DOMContentLoaded", function(){
 	}
 	
 	function returnSearchResults(event){
+		toggleDisplay(welcomeBox, "none")
 		resultsMessage.style.visibility = "visible";
 
 		var searchQuery = searchBar.value;
@@ -157,6 +161,11 @@ document.addEventListener("DOMContentLoaded", function(){
 		thumbnailImage.src = thumbnailUrl;
 		thumbnailImage.addEventListener("click", goToStreamPage)
 		return thumbnailImage;
+	}
+
+	function goToStreamPage(){
+		var streamUrl = this.nextSibling.children[0].children[0].attributes["href"]["value"]
+		window.open(streamUrl)
 	}
 
 	function createInfoBox(streamObject){
@@ -248,8 +257,16 @@ document.addEventListener("DOMContentLoaded", function(){
 		window.open(twitchUrl + this.innerText + "/profile");
 	}
 
-	function goToStreamPage(){
-		var streamUrl = this.nextSibling.children[0].children[0].attributes["href"]["value"]
-		window.open(streamUrl)
+	function animateHomeScreen(){
+		var buttons = document.getElementById('psn-btns').children;
+		for(var buttonIndex = 0; buttonIndex < buttons.length; buttonIndex++){
+			(function(buttonIndex){
+			        setTimeout(function(){
+			            buttons[buttonIndex].classList.add("revealed")
+			        }, 750 * buttonIndex);
+			    }(buttonIndex));
+		}
+		setTimeout(function(){ twitchery.classList.add("revealed"); }, 3500);
 	}
+	
 })
