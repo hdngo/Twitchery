@@ -5,6 +5,13 @@ It's witchcraft with Twitch's craft..! Yet for some reason, I named it with the 
 
 Check it out live [here](http://htmlpreview.github.io/?https://github.com/hdngo/Twitchery/blob/master/index.html).
 
+##UPDATE
+New Features Implemented
+  - Home Screen Animation
+  - Loading Animation
+  - Channel Tooltip
+  - Channel and Stream Page Opening
+
 ##Technologies Used
 * HTML
 * CSS
@@ -16,6 +23,11 @@ Check it out live [here](http://htmlpreview.github.io/?https://github.com/hdngo/
 * A user can search for the streams that are currently available for a game.
 * A user can see the results from their search.
 * A user can page through multiple results.
+* A user can see the stream's channel logo.
+* A user can click on the stream name to view the actual stream.
+* A user can click on the stream thumbnail to view the actual stream.
+* A user can see the logo for the channel hosting the stream.
+* A user should receive an 'error message' if they receive no results.
 
 ##Screenshots
 ![Landing Page](https://github.com/hdngo/Twitchery/blob/master/imgs/default-screen.png)
@@ -56,5 +68,6 @@ Check it out live [here](http://htmlpreview.github.io/?https://github.com/hdngo/
   - [XHR readyStates](http://stackoverflow.com/questions/632774/what-do-the-different-readystates-in-xmlhttprequest-mean-and-how-can-i-use-them)
   - [Default Parameters](http://stackoverflow.com/questions/894860/set-a-default-parameter-value-for-a-javascript-function)
   - [Removing Form Box Shadows](http://stackoverflow.com/questions/24222798/how-to-remove-the-blue-box-shadow-border-in-button-if-clicked)
+  - [Adding Delays within Loops using IIFEs](http://stackoverflow.com/questions/11764714/applying-delay-between-iterations-of-javascript-for-loop)
 - Twitch API Docs
   - [Search](https://github.com/justintv/Twitch-API/blob/master/v3_resources/search.md)
